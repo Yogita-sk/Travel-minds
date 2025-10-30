@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Route Map with Total Distance</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([18.51803393016631, 73.84578254846495], 12);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Define locations from right to left (east to west)
+        var locations = [
+            { name: 'Mulshi Dam', coords: [18.669259, 73.935687] },
+            { name: 'Pashan Lake', coords: [18.516383, 73.932693] },
+            { name: 'Bund Garden', coords: [18.5492204, 73.8941145] },
+            { name: 'Aga Khan Palace', coords: [18.5333344, 73.8592805] },
+            { name: 'Shaniwar Wada', coords: [18.5204303, 73.8567437] }
+        ];
+
+        // Function to calculate distance between two coordinates in km
+        function getDistance(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Earth's radius in km
+            var dLat = (lat2 - lat1) * Math.PI / 180;
+            var dLon = (lon2 - lon1) * Math.PI / 180;
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // Distance in km
+        }
+
+        var totalDistance = 0; // Initialize total distance
+
+        // Add markers and calculate total distance
+        for (var i = 0; i < locations.length; i++) {
+            var marker = L.marker(locations[i].coords).addTo(map).bindPopup(locations[i].name);
+            if (i === 0) {
+                marker.bindPopup(locations[i].name + " (Start)").openPopup();
+            } else if (i === locations.length - 1) {
+                marker.bindPopup(locations[i].name + " (End)");
+            }
+
+            // Calculate distance and add to total distance
+            if (i > 0) {
+                var distance = getDistance(
+                    locations[i - 1].coords[0], locations[i - 1].coords[1],
+                    locations[i].coords[0], locations[i].coords[1]
+                );
+                totalDistance += distance;
+            }
+        }
+
+        // Display the total distance in an alert or a marker
+        var totalDistanceRounded = totalDistance.toFixed(2);
+        alert("Total distance from start to end: " + totalDistanceRounded + " km");
+
+        // Draw a full route polyline (optional)
+        var polylineCoords = locations.map(function (location) {
+            return location.coords;
+        });
+        var polyline = L.polyline(polylineCoords, { color: 'blue', weight: 3 }).addTo(map);
+
+        // Fit map to show all locations
+        map.fitBounds(polyline.getBounds());
+    </script>
+</body>
+</html>

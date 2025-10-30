@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incredible India</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Include padding and border in element width/height */
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            /* Prevent horizontal overflow */
+        }
+
+        .hero-section {
+            background: url('/static/place2.png') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            /* Adjust overlay color */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin: 0;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .explore-btn {
+            background-color: #8AB92D;
+            /* Adjust button color */
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 3;
+            overflow: hidden;
+            /* Ensure content stays within navbar */
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+
+
+        .section-title {
+            text-align: left;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .top-destinations-section,
+        .top-attractions-section {
+            margin: 2rem;
+        }
+
+        .destination-cards {
+            display: flex;
+            gap: 1rem;
+            overflow-x: scroll;
+            padding-bottom: 1rem;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            /* Set a fixed width */
+            height: 300px;
+            /* Set a fixed height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            /* Fixed height for the image */
+            object-fit: cover;
+            /* Ensures image maintains aspect ratio and covers the container */
+        }
+
+        .card h3 {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: #555;
+            margin: 0 0 1rem;
+            padding: 0 0.5rem;
+            flex-grow: 1;
+            /* Allows text area to adjust and fill space */
+        }
+
+
+        .all-destinations-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #1e90ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .attraction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .attraction-item {
+            text-align: center;
+        }
+
+        .attraction-item img {
+            width: 100%;
+            border-radius: 10px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .attraction-item h3 {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .explore-button {
+            display: block;
+            margin: 1.5rem auto;
+            padding: 0.5rem 1.5rem;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .explore-button:hover {
+            background-color: #0069c0;
+        }
+
+
+        #weather-section {
+            background-color: #f0f4f8;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #weather-container p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        #city-name,
+        #temp-value,
+        #weather-desc {
+            font-weight: bold;
+        }
+
+
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #111;
+            border-top: 1px solid #333;
+            color: #fff;
+        }
+
+        .footer .logo-section,
+        .footer .links-section {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px 0;
+        }
+
+        .footer .logo-section h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .footer .logo-section p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer .links-section {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .footer .links-section div {
+            flex: 1;
+            min-width: 100px;
+            margin: 10px;
+        }
+
+        .footer .links-section div a {
+            display: block;
+            color: #bbb;
+            text-decoration: none;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer .social-icons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer .social-icons a {
+            display: inline-block;
+            margin: 0 5px;
+            color: #bbb;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .footer .copyright {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer .links-section {
+                justify-content: center;
+            }
+        }
+    </style>
+
+
+    <style>
+        /* photo gallery */
+        .gallery-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            /* Fixed height */
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .gallery-item img {
+                height: 150px;
+                /* Adjust for smaller screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo"><a href="/">Touristo</a></div>
+        <div>
+            <a href="/makeroot">Make Routes</a>
+            <a href="https://www.makemytrip.com/railways/">Book Ticket</a>
+            <a href="/about">About Us</a>
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <div class="hero-content">
+            <p>BE THE PART OF THIS WONDERFUL JOURNEY</p>
+            <h1>Incredible India!</h1>
+            <button class="explore-btn">Explore Now</button>
+        </div>
+    </div>
+
+
+
+    <div class="top-destinations-section">
+        <h2 class="section-title">Top Destinations</h2>
+        <div class="destination-cards">
+            {% for place in places %}
+            <div class="card">
+                <img src={{place.image_url}} alt="Naples">
+                <h3>{{place.place_name}}</h3>
+                <p>From Vesuvius to Pompeii</p>
+            </div>
+            {% endfor %}
+            {% comment %} <div class="card">
+                <img src="/static/visit2.jpg" alt="Venice">
+                <h3>Venice</h3>
+                <p>From St. Mark Tower to Doge Palace</p>
+            </div>
+            <div class="card">
+                <img src="/static/visit3.jpg" alt="Florence">
+                <h3>Florence</h3>
+                <p>From Brunelleschi’s Dome to the Uffizi Gallery</p>
+            </div>
+            <div class="card">
+                <img src="/static/visit1.jpg" alt="Milan">
+                <h3>Milan</h3>
+                <p>From Duomo to Last Supper</p>
+            </div>
+            <div class="card">
+                <img src="/static/visit3.jpg" alt="Cinque Terre">
+                <h3>Cinque Terre</h3>
+                <p>From boat tours to National Park</p>
+            </div> {% endcomment %}
+        </div>
+        <a href="/localdata" class="all-destinations-link">All destinations →</a>
+    </div>
+
+    <div class="top-attractions-section">
+        <h2 class="section-title">Top Routes</h2>
+        <p class="sub-title">All entrance tickets for the most popular Italian attractions</p>
+        <div class="attraction-grid">
+            <div class="attraction-item">
+                <img src="/static/visit1.jpg" alt="Colosseum">
+                <h3>Colosseum</h3>
+            </div>
+            <div class="attraction-item">
+                <img src="/static/place2.png" alt="San Gimignano Pass">
+                <h3>San Gimignano Pass</h3>
+            </div>
+            <div class="attraction-item">
+                <img src="/static/visit1.jpg" alt="Colosseum">
+                <h3>Colosseum</h3>
+            </div>
+            <div class="attraction-item">
+                <img src="/static/visit1.jpg" alt="San Gimignano Pass">
+                <h3>San Gimignano Pass</h3>
+            </div>
+            <div class="attraction-item">
+                <img src="/static/visit1.jpg" alt="Colosseum">
+                <h3>Colosseum</h3>
+            </div>
+            <div class="attraction-item">
+                <img src="/static/visit1.jpg" alt="San Gimignano Pass">
+                <h3>San Gimignano Pass</h3>
+            </div>
+        </div>
+        <button class="explore-button">Explore All Attractions →</button>
+    </div>
+
+    <div class="gallery-container">
+        <h2 class="gallery-title">Tourist Places Photo Gallery</h2>
+        <div class="photo-gallery">
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDKAEC3qBcQviSQ_RYxrcebzopsgC--9IBcQ&s"
+                    alt="Place 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1sBdRTNV1q89HVt1Pw-3YF-OVwopURSA-Bg&s"
+                    alt="Place 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL2XO158pVMwtj_Uryuk9MwEo2QbURdTjDnw&s"
+                    alt="Place 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1sBdRTNV1q89HVt1Pw-3YF-OVwopURSA-Bg&s"
+                    alt="Place 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL2XO158pVMwtj_Uryuk9MwEo2QbURdTjDnw&s"
+                    alt="Place 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL2XO158pVMwtj_Uryuk9MwEo2QbURdTjDnw&s"
+                    alt="Place 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1sBdRTNV1q89HVt1Pw-3YF-OVwopURSA-Bg&s"
+                    alt="Place 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL2XO158pVMwtj_Uryuk9MwEo2QbURdTjDnw&s"
+                    alt="Place 3">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer">
+        <div class="logo-section">
+            <h2>Touristo</h2>
+            <p>Touristo COMPANY</p>
+        </div>
+        <div class="links-section">
+            <div>
+                <a href="#">Weebly Themes</a>
+                <a href="#">Pre-Sale FAQs</a>
+                <a href="#">Submit a Ticket</a>
+            </div>
+            <div>
+                <a href="#">Services</a>
+                <a href="#">Theme Tweak</a>
+            </div>
+            <div>
+                <a href="#">Showcase</a>
+                <a href="#">Widgetkit</a>
+                <a href="#">Support</a>
+            </div>
+            <div>
+                <a href="#">About Us</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Affiliates</a>
+                <a href="#">Resources</a>
+            </div>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fa fa-facebook"></i> Facebook</a>
+            <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
+            <a href="#"><i class="fa fa-rss"></i> RSS</a>
+            <a href="#"><i class="fa fa-google-plus"></i> Google+</a>
+            <a href="#"><i class="fa fa-ellipsis-h"></i> More</a>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const apiKey = 'YOUR_API_KEY'; // Replace with your WeatherAPI key
+            const city = 'London'; // Replace with any city name or use user input for dynamic cities
+
+            async function fetchWeather() {
+                try {
+                    const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`);
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        document.getElementById('city-name').textContent = data.location.name;
+                        document.getElementById('temp-value').textContent = data.current.temp_c;
+                        document.getElementById('weather-desc').textContent = data.current.condition.text;
+                    } else {
+                        document.getElementById('weather-container').innerHTML = `<p>Weather data not available</p>`;
+                    }
+                } catch (error) {
+                    console.error('Error fetching weather data:', error);
+                    document.getElementById('weather-container').innerHTML = `<p>Failed to fetch weather data</p>`;
+                }
+            }
+
+            fetchWeather();
+        });
+
+
+    </script>
+</body>
+
+</html>

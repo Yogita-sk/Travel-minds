@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Local Data Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        var map = L.map('map').setView([18.51803393016631, 73.84578254846495], 14);  // Centered around Jalgaon, Maharashtra
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        const defaultIcon = L.icon({ iconUrl: 'static/default.png', iconSize: [25, 25] });
+
+        L.marker([18.5204303, 73.8567437], { icon: defaultIcon }).addTo(map).bindPopup('Shaniwar Wada - Fort');
+        L.marker([18.531389, 73.845946], { icon: defaultIcon }).addTo(map).bindPopup('Parvati Hill Temple - Temple');
+        L.marker([18.5484776, 73.8661046], { icon: defaultIcon }).addTo(map).bindPopup('Raja Dinkar Kelkar Museum - Museum');
+        L.marker([18.5189614, 73.8302459], { icon: defaultIcon }).addTo(map).bindPopup('Pune-Okayama Friendship Garden - Garden');
+        L.marker([18.516726, 73.842238], { icon: defaultIcon }).addTo(map).bindPopup('Rajiv Gandhi Zoological Park - Zoo');
+        L.marker([18.5350171, 73.8520644], { icon: defaultIcon }).addTo(map).bindPopup('Sinhagad Fort - Fort');
+        L.marker([18.5333344, 73.8592805], { icon: defaultIcon }).addTo(map).bindPopup('Aga Khan Palace - Palace');
+        L.marker([18.5206156, 73.8333705], { icon: defaultIcon }).addTo(map).bindPopup('Pataleshwar Cave Temple - Cave Temple');
+        L.marker([18.5492204, 73.8941145], { icon: defaultIcon }).addTo(map).bindPopup('Bund Garden - Park');
+        L.marker([18.5168227, 73.8541963], { icon: defaultIcon }).addTo(map).bindPopup('Joshi’s Museum of Miniature Railways - Museum');
+        L.marker([18.5363154, 73.8105458], { icon: defaultIcon }).addTo(map).bindPopup('Chaturshringi Temple - Temple');
+        L.marker([18.596794, 73.787207], { icon: defaultIcon }).addTo(map).bindPopup('Bhuleshwar Temple - Temple');
+        L.marker([18.5634091, 73.8298535], { icon: defaultIcon }).addTo(map).bindPopup('Lal Mahal - Fort');
+        L.marker([18.4717326, 73.7868423], { icon: defaultIcon }).addTo(map).bindPopup('Khadakwasla Lake - Lake');
+        L.marker([18.601049, 73.772102], { icon: defaultIcon }).addTo(map).bindPopup('Bhaja Caves - Caves');
+        L.marker([18.666636, 73.755968], { icon: defaultIcon }).addTo(map).bindPopup('Pavana Dam - Dam');
+        L.marker([18.5030896, 73.8408067], { icon: defaultIcon }).addTo(map).bindPopup('Osho Teerth Park - Park');
+        L.marker([18.5386152, 73.8756536], { icon: defaultIcon }).addTo(map).bindPopup('JW Marriott Hotel Pune - Hotel');
+        L.marker([18.5171813, 73.8476016], { icon: defaultIcon }).addTo(map).bindPopup('Phoenix Marketcity Pune - Mall');
+        L.marker([18.5209082, 73.8533894], { icon: defaultIcon }).addTo(map).bindPopup('National War Memorial Southern Command - Memorial');
+        L.marker([18.5017962, 73.9331153], { icon: defaultIcon }).addTo(map).bindPopup('Alandi - Pilgrimage Town');
+        L.marker([18.473327, 74.017027], { icon: defaultIcon }).addTo(map).bindPopup('Saras Baug - Garden');
+        L.marker([18.501126, 73.927925], { icon: defaultIcon }).addTo(map).bindPopup('Vetal Tekdi - Hill');
+        L.marker([18.550839, 73.929384], { icon: defaultIcon }).addTo(map).bindPopup('Balaji Temple - Temple');
+        L.marker([18.516383, 73.932693], { icon: defaultIcon }).addTo(map).bindPopup('Pashan Lake - Lake');
+        L.marker([18.438555, 73.889666], { icon: defaultIcon }).addTo(map).bindPopup('Baner Hill - Hill');
+        L.marker([18.619989, 73.936485], { icon: defaultIcon }).addTo(map).bindPopup('Lavasa City - Planned Town');
+        L.marker([18.499734, 74.037003], { icon: defaultIcon }).addTo(map).bindPopup('Baneshwar Temple - Temple');
+        L.marker([18.478352, 73.914488], { icon: defaultIcon }).addTo(map).bindPopup('Mahadji Shinde Chhatri - Monument');
+        L.marker([18.669259, 73.935687], { icon: defaultIcon }).addTo(map).bindPopup('Mulshi Dam - Dam');
+        L.marker([18.539563, 74.036295], { icon: defaultIcon }).addTo(map).bindPopup('Bhigwan Bird Sanctuary - Sanctuary');
+        L.marker([18.433778, 73.857876], { icon: defaultIcon }).addTo(map).bindPopup('Khadakwasla Dam - Dam');
+        L.marker([18.573085, 74.027466], { icon: defaultIcon }).addTo(map).bindPopup('Dhom Dam - Dam');
+        L.marker([18.577224, 73.893562], { icon: defaultIcon }).addTo(map).bindPopup('Lonavala - Hill Station');
+        L.marker([18.534499, 73.876464], { icon: defaultIcon }).addTo(map).bindPopup('Visapur Fort - Fort');
+        L.marker([18.517584, 74.030547], { icon: defaultIcon }).addTo(map).bindPopup('Bhuleshwar Temple - Temple');
+        L.marker([18.438026, 74.058936], { icon: defaultIcon }).addTo(map).bindPopup('Rajgad Fort - Fort');
+        L.marker([18.492614, 73.817451], { icon: defaultIcon }).addTo(map).bindPopup('Pashan Hills - Hill');
+        L.marker([18.620148, 73.814694], { icon: defaultIcon }).addTo(map).bindPopup('Lavasa Waterfront - Tourist Attraction');
+        L.marker([18.674882, 73.906089], { icon: defaultIcon }).addTo(map).bindPopup('Malshej Ghat - Mountain Pass');
+        L.marker([18.510853, 73.935894], { icon: defaultIcon }).addTo(map).bindPopup('Fort Jadhavgadh - Heritage Hotel');
+        L.marker([18.602509, 73.799929], { icon: defaultIcon }).addTo(map).bindPopup('Bhivpuri Waterfalls - Waterfall');
+        L.marker([18.529385, 73.849982], { icon: defaultIcon }).addTo(map).bindPopup('Taljai Hills - Hiking Trail');
+        L.marker([18.408687, 73.849568], { icon: defaultIcon }).addTo(map).bindPopup('Sinhagad Trek - Trekking Path');
+        L.marker([18.425495, 74.055414], { icon: defaultIcon }).addTo(map).bindPopup('Raigad Fort - Fort');
+        L.marker([18.641127, 73.905618], { icon: defaultIcon }).addTo(map).bindPopup('Tamhini Ghat - Scenic Drive');
+        L.marker([18.498814, 73.951034], { icon: defaultIcon }).addTo(map).bindPopup('Purandar Fort - Fort');
+        L.marker([18.523628, 73.854027], { icon: defaultIcon }).addTo(map).bindPopup('Katraj Lake - Lake');
+        L.marker([18.557305, 73.903647], { icon: defaultIcon }).addTo(map).bindPopup('Lohagad Fort - Fort');
+        L.marker([18.637776, 73.751503], { icon: defaultIcon }).addTo(map).bindPopup('Karla Caves - Caves');
+        L.marker([18.487746, 73.857635], { icon: defaultIcon }).addTo(map).bindPopup('Matheran - Hill Station');
+        L.marker([18.487862, 73.870983], { icon: defaultIcon }).addTo(map).bindPopup('Tikona Fort - Fort');
+        L.marker([18.562401, 74.081082], { icon: defaultIcon }).addTo(map).bindPopup('Ramdara Temple - Temple');
+        L.marker([18.572933, 74.022458], { icon: defaultIcon }).addTo(map).bindPopup('Jejuri Temple - Temple');
+        L.marker([18.557049, 73.936418], { icon: defaultIcon }).addTo(map).bindPopup('Bhushi Dam - Dam');
+        L.marker([18.566147, 73.946758], { icon: defaultIcon }).addTo(map).bindPopup('Pawna Lake - Lake');
+        L.marker([18.621444, 73.873456], { icon: defaultIcon }).addTo(map).bindPopup('Sahas Adventure Park - Park');
+
+        // Add search control
+        var searchControl = L.Control.geocoder({
+            defaultMarkGeocode: false,
+            geocoder: L.Control.Geocoder.nominatim(),
+            collapsed: true,
+            showResultIcons: true
+        }).on('markgeocode', function (e) {
+            map.setView(e.geocode.center, 13);
+            // Display search result in the sidebar
+            var sidebar = document.getElementById('sidebar');
+            sidebar.innerHTML += '<p>' + e.geocode.name + '</p>';
+        }).addTo(map);
+    </script>
+</body>
+
+</html>

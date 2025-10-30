@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Planner with Cost Estimation in INR</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        #cost-display {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9f5ff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cost-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+        }
+
+        .cost-item img {
+            width: 60px;
+            height: auto;
+            margin-bottom: 5px;
+        }
+
+        .cost-item p {
+            margin: 5px 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+
+        .navbar {
+            position: fixed;
+            /* Ensures the navbar stays at the top */
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 30px;
+            /* Adjust padding for better spacing */
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            /* Ensure navbar stays above other elements */
+            box-sizing: border-box;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            white-space: nowrap;
+            /* Prevents text from wrapping */
+        }
+
+        .navbar .logo {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Ensure navbar wraps content on smaller screens */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 15px;
+                /* Reduce padding on smaller screens */
+            }
+
+            .navbar a {
+                margin: 5px 0;
+                /* Add spacing between links */
+            }
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #111;
+            border-top: 1px solid #333;
+            color: #fff;
+        }
+
+        .footer .logo-section,
+        .footer .links-section {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px 0;
+        }
+
+        .footer .logo-section h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .footer .logo-section p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer .links-section {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .footer .links-section div {
+            flex: 1;
+            min-width: 100px;
+            margin: 10px;
+        }
+
+        .footer .links-section div a {
+            display: block;
+            color: #bbb;
+            text-decoration: none;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer .social-icons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer .social-icons a {
+            display: inline-block;
+            margin: 0 5px;
+            color: #bbb;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .footer .copyright {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer .links-section {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo"><a href="/">Touristo</a></div>
+        <div>
+            <a href="/makeroot">Make Routes</a>
+            <a href="https://www.makemytrip.com/railways/">Book Ticket</a>
+            <a href="/about">About Us</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Route Planner with Cost Estimation in INR</h2>
+        <p class="instructions">Click on the map to select locations. The route will be displayed connecting them in the
+            order you clicked, along with estimated travel costs.</p>
+        <div id="map"></div>
+        <div id="cost-display">
+            <div class="cost-item">
+                <img src="/static/taxi.png" alt="Taxi">
+                <p id="uber-cost">Uber Taxi: ₹0.00</p>
+            </div>
+            <div class="cost-item">
+                <img src="/static/auto.jpg" alt="Auto Rickshaw">
+                <p id="auto-cost">Auto Rickshaw: ₹0.00</p>
+            </div>
+            <div class="cost-item">
+                <img src="/static/bus.jpg" alt="Bus">
+                <p id="bus-cost">Govt Bus: ₹0.00</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer">
+        <div class="logo-section">
+            <h2>Touristo</h2>
+            <p>Touristo COMPANY</p>
+        </div>
+        <div class="links-section">
+            <div>
+                <a href="#">Weebly Themes</a>
+                <a href="#">Pre-Sale FAQs</a>
+                <a href="#">Submit a Ticket</a>
+            </div>
+            <div>
+                <a href="#">Services</a>
+                <a href="#">Theme Tweak</a>
+            </div>
+            <div>
+                <a href="#">Showcase</a>
+                <a href="#">Widgetkit</a>
+                <a href="#">Support</a>
+            </div>
+            <div>
+                <a href="#">About Us</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Affiliates</a>
+                <a href="#">Resources</a>
+            </div>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fa fa-facebook"></i> Facebook</a>
+            <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
+            <a href="#"><i class="fa fa-rss"></i> RSS</a>
+            <a href="#"><i class="fa fa-google-plus"></i> Google+</a>
+            <a href="#"><i class="fa fa-ellipsis-h"></i> More</a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([18.5204, 73.8567], 13); // Centered on Pune
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Initialize an array to store waypoints
+        const waypoints = [];
+        let routeControl;
+
+        // Cost per kilometer for different transportation modes (in INR)
+        const costRates = {
+            uber: 15,      // Uber Taxi (per km)
+            auto: 12,      // Auto Rickshaw (per km)
+            bus: 5         // Government Bus (per km)
+        };
+
+        // Add a click event to the map for selecting locations
+        map.on('click', function (e) {
+            const latlng = e.latlng;
+            waypoints.push(L.latLng(latlng.lat, latlng.lng));
+
+            // Add a marker for each selected location
+            L.marker(latlng).addTo(map).bindPopup(`Location ${waypoints.length}`).openPopup();
+
+            // Create or update the route if there are at least two points
+            if (waypoints.length > 1) {
+                if (routeControl) {
+                    map.removeControl(routeControl);
+                }
+                routeControl = L.Routing.control({
+                    waypoints: waypoints,
+                    routeWhileDragging: true,
+                    createMarker: function () { return null; } // Avoid duplicate markers
+                }).addTo(map);
+
+                // Calculate and display the cost after the route is calculated
+                routeControl.on('routesfound', function (e) {
+                    const route = e.routes[0];
+                    const distanceInKm = route.summary.totalDistance / 1000; // Convert from meters to kilometers
+
+                    // Calculate costs for different modes of transportation
+                    const uberCost = distanceInKm * costRates.uber;
+                    const autoCost = distanceInKm * costRates.auto;
+                    const busCost = distanceInKm * costRates.bus;
+
+                    // Display the costs
+                    document.getElementById('uber-cost').textContent = `Uber Taxi: ₹${uberCost.toFixed(2)}`;
+                    document.getElementById('auto-cost').textContent = `Auto Rickshaw: ₹${autoCost.toFixed(2)}`;
+                    document.getElementById('bus-cost').textContent = `Govt Bus: ₹${busCost.toFixed(2)}`;
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
